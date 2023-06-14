@@ -46,7 +46,7 @@
 
 #include "../../../inc/MarlinConfigPre.h"
 
-#if BOTH(DWIN_LCD_PROUI, HAS_LEVELING)
+#if ALL(DWIN_LCD_PROUI, HAS_LEVELING)
 
 #include "../../marlinui.h"
 #include "../../../core/types.h"
@@ -104,29 +104,17 @@ char cmd[MAX_CMD_SIZE+16], str_1[16], str_2[16], str_3[16];
 
     matrix_3x3 rotation = matrix_3x3::create_look_at(vector_3(lsf_results.A, lsf_results.B, 1));
     GRID_LOOP(i, j) {
-      float mx = bedlevel.get_mesh_x(i),
-            my = bedlevel.get_mesh_y(j),
-            mz = bedlevel.z_values[i][j];
+      float mx = bedlevel.get_mesh_x(i), my = bedlevel.get_mesh_y(j), mz = bedlevel.z_values[i][j];
 
       if (DEBUGGING(LEVELING)) {
-        DEBUG_ECHOPAIR_F("before rotation = [", mx, 7);
-        DEBUG_CHAR(',');
-        DEBUG_ECHO_F(my, 7);
-        DEBUG_CHAR(',');
-        DEBUG_ECHO_F(mz, 7);
-        DEBUG_ECHOPGM("]   ---> ");
+        DEBUG_ECHOLN(F("before rotation = ["), p_float_t(mx, 7), AS_CHAR(','), p_float_t(my, 7), AS_CHAR(','), p_float_t(mz, 7), F("]   ---> "));
         DEBUG_DELAY(20);
       }
 
       rotation.apply_rotation_xyz(mx, my, mz);
 
       if (DEBUGGING(LEVELING)) {
-        DEBUG_ECHOPAIR_F("after rotation = [", mx, 7);
-        DEBUG_CHAR(',');
-        DEBUG_ECHO_F(my, 7);
-        DEBUG_CHAR(',');
-        DEBUG_ECHO_F(mz, 7);
-        DEBUG_ECHOLNPGM("]");
+        DEBUG_ECHOLN(F("after rotation = ["), p_float_t(mx, 7), AS_CHAR(','), p_float_t(my, 7), AS_CHAR(','), p_float_t(mz, 7), F("]   ---> "));
         DEBUG_DELAY(20);
       }
 
@@ -183,7 +171,7 @@ void BedLevelToolsClass::MoveToZ() {
 }
 void BedLevelToolsClass::ProbeXY() {
   const uint16_t Clear = Z_CLEARANCE_DEPLOY_PROBE;
-  sprintf_P(cmd, PSTR("G0Z%i\nG30X%sY%s"),
+  sprintf_P(cmd, PSTR("G28O\nG0Z%i\nG30X%sY%s"),
     Clear,
     dtostrf(bedlevel.get_mesh_x(bedLevelTools.mesh_x), 1, 2, str_1),
     dtostrf(bedlevel.get_mesh_y(bedLevelTools.mesh_y), 1, 2, str_2)
