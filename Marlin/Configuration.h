@@ -1112,8 +1112,8 @@
 #define ENDSTOPPULLUPS
 #if DISABLED(ENDSTOPPULLUPS)
   // Disable ENDSTOPPULLUPS to set pullups individually
-  #define ENDSTOPPULLUP_XMIN //UPR Senzorless
-  #define ENDSTOPPULLUP_YMIN //UPR Senzorless
+  //#define ENDSTOPPULLUP_XMIN 
+  //#define ENDSTOPPULLUP_YMIN 
   //#define ENDSTOPPULLUP_ZMIN
   //#define ENDSTOPPULLUP_IMIN
   //#define ENDSTOPPULLUP_JMIN
@@ -1162,9 +1162,9 @@
  * Endstop "Hit" State
  * Set to the state (HIGH or LOW) that applies to each endstop.
  */
-#define X_MIN_ENDSTOP_HIT_STATE HIGH
+#define X_MIN_ENDSTOP_HIT_STATE HIGH  //UPR sensorless
 #define X_MAX_ENDSTOP_HIT_STATE HIGH
-#define Y_MIN_ENDSTOP_HIT_STATE HIGH
+#define Y_MIN_ENDSTOP_HIT_STATE HIGH  //UPR sensorless
 #define Y_MAX_ENDSTOP_HIT_STATE HIGH
 #define Z_MIN_ENDSTOP_HIT_STATE HIGH
 #define Z_MAX_ENDSTOP_HIT_STATE HIGH
@@ -1228,7 +1228,7 @@
  * Override with M92
  *                                      X, Y, Z [, I [, J [, K...]]], E0 [, E1[, E2...]]
  */
-#define DEFAULT_AXIS_STEPS_PER_UNIT   { 80, 80, 400, 101.21 } //UPR kroky (pro extruder)
+#define DEFAULT_AXIS_STEPS_PER_UNIT   { 1280, 1280, 12800, 101.21 } //UPR kroky (pro extruder)
 
 /**
  * Default Max Feed Rate (linear=mm/s, rotational=°/s)
@@ -1239,7 +1239,7 @@
 
 //#define LIMITED_MAX_FR_EDITING        // Limit edit via M203 or LCD to DEFAULT_MAX_FEEDRATE * 2
 #if ENABLED(LIMITED_MAX_FR_EDITING)
-  #define MAX_FEEDRATE_EDIT_VALUES    { 600, 600, 10, 50 } // ...or, set your own edit limits
+  #define MAX_FEEDRATE_EDIT_VALUES    { 1000, 1000, 30, 50 } // ...or, set your own edit limits
 #endif
 
 /**
@@ -1265,9 +1265,9 @@
  *   M204 I    Angular Acceleration
  *   M204 J    Angular Travel Acceleration
  */
-#define DEFAULT_ACCELERATION                   500  // X, Y, Z ... and E acceleration for printing moves
-#define DEFAULT_RETRACT_ACCELERATION           500  // E acceleration for retracts
-#define DEFAULT_TRAVEL_ACCELERATION            500  // X, Y, Z ... acceleration for travel (non printing) moves
+#define DEFAULT_ACCELERATION                   1000  // X, Y, Z ... and E acceleration for printing moves //UPR max akcelerace
+#define DEFAULT_RETRACT_ACCELERATION           1000  // E acceleration for retracts  //UPR max akcelerace
+#define DEFAULT_TRAVEL_ACCELERATION            1000  // X, Y, Z ... acceleration for travel (non printing) moves //UPR max akcelerace
 #if ENABLED(AXIS4_ROTATES)
   #define DEFAULT_ANGULAR_ACCELERATION        3000  // I, J, K acceleration for rotational-only printing moves
   #define DEFAULT_ANGULAR_TRAVEL_ACCELERATION 3000  // I, J, K acceleration for rotational-only travel (non printing) moves
@@ -1715,8 +1715,8 @@
 // @section motion
 
 // Invert the stepper direction. Change (or reverse the motor connector) if an axis goes the wrong way.
-#define INVERT_X_DIR true
-#define INVERT_Y_DIR true
+#define INVERT_X_DIR false
+#define INVERT_Y_DIR false
 #define INVERT_Z_DIR false
 //#define INVERT_I_DIR false
 //#define INVERT_J_DIR false
@@ -2695,7 +2695,7 @@
 //#define INDIVIDUAL_AXIS_HOMING_SUBMENU
 
 //
-// SPEAKER/BUZZER
+// R/BUZZER
 //
 // If you have a speaker that can produce tones, enable it here.
 // By default Marlin assumes you have a buzzer with a fixed frequency.
